@@ -10,6 +10,7 @@ NUMBER_OF_DAYS=20
 numberOfDays=20
 totalWorkingDays=0
 totalEmpHrs=0
+day=1
 #Using function
 function getWorkingHours()
 {
@@ -36,6 +37,7 @@ local workingHrs=$1
 wage=$(($workingHrs*$PER_HOUR))
 echo "$wage"
 }
+
 #Using loop until condition true
 while(( $NUMBER_OF_HOUR > $totalEmpHrs  && $NUMBER_OF_DAYS > $totalWorkingDays ))
 do
@@ -43,6 +45,13 @@ do
    empHrs="$( getWorkingHours $((RANDOM%3+1)) )"
 	totalEmpHrs=$(($totalEmpHrs+$empHrs))                     			# Total employee hour
 	empDailyWage[$totalWorkingDays]="$( calcDailyWage $empHrs )"		#Storing in aaray
+	day=$((day+1))
 done
+
 totalSalary=$(($totalEmpHrs*$numberOfDays))
 echo "Total Salary is : ${empDailyWage[@]}"
+#Printing key
+for day in  ${!empDailyWage[@]}
+do
+	printf "$day : ${empDailyWage[$day]} \n"
+done
