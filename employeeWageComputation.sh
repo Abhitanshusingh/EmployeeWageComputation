@@ -16,11 +16,11 @@ function getWorkingHours()
 	random=$1											#Using case statement
 	case $random in
 		1)
-			empHrs=8						 #Calcute full time
+			empHrs=8										 #Calcute full time
 			;;
 
 		2)
-			empHrs=4						 #Calculate part time
+			empHrs=4										 #Calculate part time
 			;;
 
 		3)
@@ -29,11 +29,20 @@ function getWorkingHours()
 	esac
 echo "$empHrs"
 }
+#Using function to calculate daily wages
+function calcDailyWage()
+{
+local workingHrs=$1
+wage=$(($workingHrs*$PER_HOUR))
+echo "$wage"
+}
+#Using loop until condition true
 while(( $NUMBER_OF_HOUR > $totalEmpHrs  && $NUMBER_OF_DAYS > $totalWorkingDays ))
 do
    totalWorkingDays=$((totalWorkingDays+1))
    empHrs="$( getWorkingHours $((RANDOM%3+1)) )"
-	totalEmpHrs=$(($totalEmpHrs+$empHrs))	# Total employee hour
+	totalEmpHrs=$(($totalEmpHrs+$empHrs))                     			# Total employee hour
+	empDailyWage[$totalWorkingDays]="$( calcDailyWage $empHrs )"		#Storing in aaray
 done
 totalSalary=$(($totalEmpHrs*$numberOfDays))
-echo "Total Salary is : $totalSalary"
+echo "Total Salary is : ${empDailyWage[@]}"
