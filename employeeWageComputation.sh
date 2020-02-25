@@ -10,12 +10,10 @@ NUMBER_OF_DAYS=20
 numberOfDays=20
 totalWorkingDays=0
 totalEmpHrs=0
-#Calculate wages till a condition
-while(( $NUMBER_OF_HOUR > $totalEmpHrs  && $NUMBER_OF_DAYS > $totalWorkingDays  ))
-do
-	totalWorkingDays=$((totalWorkingDays+1))
-	random=$((RANDOM%3+1))
-	#Using case statement
+#Using function
+function getWorkingHours()
+{
+	random=$1											#Using case statement
 	case $random in
 		1)
 			empHrs=8						 #Calcute full time
@@ -29,8 +27,13 @@ do
 			empHrs=0
 			;;
 	esac
-
-totalEmpHrs=$(($totalEmpHrs+$empHrs))	# Total employee hour
+echo "$empHrs"
+}
+while(( $NUMBER_OF_HOUR > $totalEmpHrs  && $NUMBER_OF_DAYS > $totalWorkingDays ))
+do
+   totalWorkingDays=$((totalWorkingDays+1))
+   empHrs="$( getWorkingHours $((RANDOM%3+1)) )"
+	totalEmpHrs=$(($totalEmpHrs+$empHrs))	# Total employee hour
 done
 totalSalary=$(($totalEmpHrs*$numberOfDays))
-echo "Total Salary is :$totalSalary"
+echo "Total Salary is : $totalSalary"
